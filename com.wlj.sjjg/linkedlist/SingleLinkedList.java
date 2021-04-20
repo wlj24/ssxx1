@@ -10,29 +10,41 @@ public class SingleLinkedList {
      private Node first;
      private int size;
 
+     public Node reverse3(){
+         Node pre=null;
+         Node node=first;
+         while (node != null) {
+          Node next=node.next;
+          node.next=pre;
+          pre=node;
+          node=next;
+         }
+         return pre;
+     }
+
      //头插
-     public void addFirst(Object data){
-         if (first==null){
-             first=new Node(data);
-         }else {
-             Node newNode=new Node(data,first);
-             first=newNode;
+     public void addFirst(Object data) {
+         if (first == null) {
+             first = new Node(data);
+         } else {
+             Node newNode = new Node(data, first);
+             first = newNode;
          }
          size++;
      }
 
      //尾插
-     public void addLast(Object data){
-         if (first==null){
-             first=new Node(data);
-         }else {
-             Node newNode=new Node(data);
+     public void addLast(Object data) {
+         if (first == null) {
+             first = new Node(data);
+         } else {
+             Node newNode = new Node(data);
              Node node = first;
              while (node.getNext() != null) {
-                 node=node.getNext();
+                 node = node.getNext();
              }
              node.setNext(newNode);
-
+             newNode.setNext(first);
          }
          size++;
      }
@@ -84,6 +96,18 @@ public class SingleLinkedList {
         }
     }
 
+    public Node revese(){
+        Node node = first;
+        Node pre = null;
+        while (node != null) {
+            Node tmp = node.next;
+            node.next = pre;
+            pre = node;
+            node = tmp;
+        }
+        return pre;
+    }
+
     //迭代
     public Node reverse(){
         Node node = first;
@@ -108,19 +132,37 @@ public class SingleLinkedList {
         return p;
     }
 
+    public boolean hasCycle(Node first) {
+        if (first == null || first.next == null) {
+            return false;
+        }
+        Node fast = first;
+        Node low = first;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            low = low.next;
+            if (low.equals(fast)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         SingleLinkedList singleLinkedList=new SingleLinkedList();
         singleLinkedList.addFirst(3);
 //        singleLinkedList.addFirst(2);
         singleLinkedList.addFirst(1);
         singleLinkedList.addLast(4);
-        singleLinkedList.addLast(5);
+ //       singleLinkedList.addLast(5);
         singleLinkedList.addIndex(2,1);
         singleLinkedList.addIndex(2,1);
         singleLinkedList.addIndex(10,3);
         singleLinkedList.deleteIndex(3);
-        singleLinkedList.first= singleLinkedList.reverse1(singleLinkedList.first);
-        singleLinkedList.print();
+     //   singleLinkedList.reverse3();
+     //   singleLinkedList.first= singleLinkedList.reverse3();
+        System.out.println(singleLinkedList.hasCycle(singleLinkedList.first));
+    //    singleLinkedList.print();
     }
 
 
