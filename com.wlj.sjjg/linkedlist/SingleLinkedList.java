@@ -23,7 +23,7 @@ public class SingleLinkedList {
      }
 
      //头插
-     public void addFirst(Object data) {
+     public void addFirst(int  data) {
          if (first == null) {
              first = new Node(data);
          } else {
@@ -34,7 +34,7 @@ public class SingleLinkedList {
      }
 
      //尾插
-     public void addLast(Object data) {
+     public void addLast(int  data) {
          if (first == null) {
              first = new Node(data);
          } else {
@@ -44,12 +44,12 @@ public class SingleLinkedList {
                  node = node.getNext();
              }
              node.setNext(newNode);
-             newNode.setNext(first);
+          //   newNode.setNext(first);
          }
          size++;
      }
 
-     public void addIndex(Object o,int index){
+     public void addIndex(int  o,int index){
          if (index > size || index < 0) {
              throw new IndexOutOfBoundsException("数组越界");
          }
@@ -108,7 +108,7 @@ public class SingleLinkedList {
         return pre;
     }
 
-    //迭代
+    //迭代反转
     public Node reverse(){
         Node node = first;
         Node pre=null;
@@ -121,7 +121,7 @@ public class SingleLinkedList {
         return pre;
     }
 
-    //递归
+    //递归反转
     public Node reverse1(Node node){
         if (node.getNext()==null){
             return node;
@@ -132,6 +132,24 @@ public class SingleLinkedList {
         return p;
     }
 
+   //判断链表是否有环
+    public boolean hasCircle(Node first) {
+         if (first==null || first.next==null){
+             return false;
+         }
+         Node fast=first;
+         Node low=first;
+         while (fast!=null && fast.next!=null){
+             fast=fast.next.next;
+             low=low.next;
+             if (fast==low){
+                 return true;
+             }
+         }
+       return false;
+    }
+
+    //判断链表是否有环
     public boolean hasCycle(Node first) {
         if (first == null || first.next == null) {
             return false;
@@ -148,21 +166,107 @@ public class SingleLinkedList {
         return false;
     }
 
+    //求链表中间节点
+    public Node getMid(Node first) {
+        if (first == null) {
+            return first;
+        }
+        Node fast = first;
+        Node slow = first;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    public static Node deleteLastKth(Node list, int k) {
+        Node fast = list;
+        int i = 1;
+        while (fast != null && i < k) {
+            fast = fast.next;
+            ++i;
+        }
+
+        if (fast == null) return list;
+
+        Node slow = list;
+        Node prev = null;
+        while (fast.next != null) {
+            fast = fast.next;
+            prev = slow;
+            slow = slow.next;
+        }
+
+        if (prev == null) {
+            list = list.next;
+        } else {
+            prev.next = prev.next.next;
+        }
+        return list;
+    }
+
+    public static  Node deleteK(Node first, int k) {
+        Node fast = first;
+        if (fast == null) {
+            return fast;
+        }
+        for (int i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        Node slow=first;
+        Node pre=null;
+        while (fast!=null && fast.next!=null){
+            fast=fast.next;
+            pre=slow;
+            slow=slow.next;
+        }
+        pre.next=pre.next.next;
+        return first;
+    }
+
+    public static Node order(Node list1, Node list2) {
+            if (list1 ==null){
+                return list2;
+            }
+            if (list2 ==null){
+                return list1;
+            }
+        if (list1.getData() < list2.getData()) {
+            list1.next=order(list1.next,list2);
+            return list1;
+        }else {
+            list2.next=order(list1,list2.next);
+            return list2;
+        }
+    }
+
     public static void main(String[] args) {
         SingleLinkedList singleLinkedList=new SingleLinkedList();
-        singleLinkedList.addFirst(3);
-//        singleLinkedList.addFirst(2);
-        singleLinkedList.addFirst(1);
+//        singleLinkedList.addFirst(3);
+////        singleLinkedList.addFirst(2);
+//        singleLinkedList.addFirst(1);
         singleLinkedList.addLast(4);
+        singleLinkedList.addLast(5);
+        singleLinkedList.addLast(6);
+        SingleLinkedList singleLinkedList1=new SingleLinkedList();
+        singleLinkedList1.addLast(1);
+        singleLinkedList1.addLast(2);
+        singleLinkedList1.addLast(3);
+        Node node= order(singleLinkedList.first,singleLinkedList1.first);
+
  //       singleLinkedList.addLast(5);
-        singleLinkedList.addIndex(2,1);
-        singleLinkedList.addIndex(2,1);
-        singleLinkedList.addIndex(10,3);
-        singleLinkedList.deleteIndex(3);
+//        singleLinkedList.addIndex(2,1);
+//        singleLinkedList.addIndex(2,1);
+//        singleLinkedList.addIndex(10,3);
+ //       singleLinkedList.deleteIndex(3);
      //   singleLinkedList.reverse3();
      //   singleLinkedList.first= singleLinkedList.reverse3();
-        System.out.println(singleLinkedList.hasCycle(singleLinkedList.first));
-    //    singleLinkedList.print();
+        System.out.println(singleLinkedList.hasCircle(singleLinkedList.first));
+        Object o= singleLinkedList.getMid(singleLinkedList.first).getData();
+        System.out.println(o);
+        deleteK(singleLinkedList.first,0);
+        singleLinkedList.print();
     }
 
 
@@ -170,23 +274,23 @@ public class SingleLinkedList {
 
 
 class Node{
-    private Object data;
+    private int  data;
     public Node next;
 
-    public Node(Object data, Node next) {
+    public Node(int  data, Node next) {
         this.data = data;
         this.next = next;
     }
 
-    public Node(Object data) {
+    public Node(int data) {
         this.data = data;
     }
 
-    public Object getData() {
+    public int getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(int  data) {
         this.data = data;
     }
 
