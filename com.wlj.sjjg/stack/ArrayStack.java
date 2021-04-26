@@ -39,9 +39,10 @@ public class ArrayStack {
 
     public static void main(String[] args) {
         ArrayStack arrayStack = new ArrayStack(10);
-        arrayStack.push(1);
-        arrayStack.push(2);
         arrayStack.push(3);
+        arrayStack.push(2);
+        arrayStack.push(1);
+        System.out.println(arrayStack.pop());
         System.out.println(arrayStack.pop());
         System.out.println(arrayStack.pop());
         arrayStack.print();

@@ -7,7 +7,7 @@ package linkedlist;
  * @Date: 2021/4/15 10:38
  */
 public class SingleLinkedList {
-     private Node first;
+     public Node first;
      private int size;
 
      public Node reverse3(){
@@ -20,6 +20,13 @@ public class SingleLinkedList {
           node=next;
          }
          return pre;
+     }
+
+     public Integer  getFirstData(){
+         if (first!=null){
+             return first.data;
+         }
+         return null;
      }
 
      //头插
@@ -44,7 +51,7 @@ public class SingleLinkedList {
                  node = node.getNext();
              }
              node.setNext(newNode);
-          //   newNode.setNext(first);
+      //       newNode.setNext(first);
          }
          size++;
      }
@@ -87,6 +94,35 @@ public class SingleLinkedList {
          }
          size--;
      }
+
+     private Node reverse2(Node first){
+         Node node=first;
+         Node pre=null;
+         while (node!=null){
+             Node node1=node.next;
+             node.next=pre;
+             pre=node;
+             node=node1;
+         }
+         return pre;
+     }
+
+     public boolean hasCircle1(Node first){
+         if (first == null){
+             return false;
+         }
+         Node fast=first;
+         Node slow=first;
+         while (fast!=null&&fast.next!=null){
+             fast=fast.next.next;
+             slow=slow.next;
+             if (fast == slow){
+                 return true;
+             }
+         }
+         return false;
+     }
+
 
     private void print() {
         Node node = first;
@@ -180,6 +216,20 @@ public class SingleLinkedList {
         return slow;
     }
 
+
+    public Node getMid1(Node first){
+         if (first==null){
+             return first;
+         }
+         Node fast=first;
+         Node slow=first;
+         while (fast!=null&& fast.next!=null){
+             fast=fast.next.next;
+             slow=slow.next;
+         }
+         return slow;
+    }
+
     public static Node deleteLastKth(Node list, int k) {
         Node fast = list;
         int i = 1;
@@ -241,6 +291,68 @@ public class SingleLinkedList {
         }
     }
 
+
+    public Node deleteK1(Node first, int k) {
+        if (first == null || k<0) {
+            return first;
+        }
+        int size = 0;
+        Node node=first;
+        while (node != null) {
+            node = node.next;
+            size++;
+        }
+        if (k>size-1){
+            return first;
+        }
+        if (k==0){
+            first=first.next;
+            return first;
+        }
+        Node node1=first;
+        for (int i=1;i<size-1-k;i++){
+            node1=node1.next;
+        }
+        node1.next=node1.next.next;
+        return first;
+    }
+
+    public void deleteK3(Node first,int k){
+         if (first==null){
+             return;
+         }
+         Node fast=first;
+         for (int i=0;i<k;i++){
+             fast=fast.next;
+         }
+         Node slow=first;
+         Node pre=null;
+         while (fast!=null&& fast.next!=null){
+             fast=fast.next;
+             pre=slow;
+             slow=slow.next;
+         }
+         pre.next=pre.next.next;
+    }
+
+    public Node merge(Node list1,Node list2){
+         if (list1==null){
+             return list2;
+         }
+         if (list2 == null){
+             return list1;
+         }
+        if (list1.getData() < list2.getData()) {
+            list1.next = merge(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = merge(list1, list2.next);
+            return list2;
+        }
+
+
+    }
+
     public static void main(String[] args) {
         SingleLinkedList singleLinkedList=new SingleLinkedList();
 //        singleLinkedList.addFirst(3);
@@ -249,11 +361,12 @@ public class SingleLinkedList {
         singleLinkedList.addLast(4);
         singleLinkedList.addLast(5);
         singleLinkedList.addLast(6);
+        singleLinkedList.addLast(7);
         SingleLinkedList singleLinkedList1=new SingleLinkedList();
         singleLinkedList1.addLast(1);
         singleLinkedList1.addLast(2);
         singleLinkedList1.addLast(3);
-        Node node= order(singleLinkedList.first,singleLinkedList1.first);
+ //       Node node= order(singleLinkedList.first,singleLinkedList1.first);
 
  //       singleLinkedList.addLast(5);
 //        singleLinkedList.addIndex(2,1);
@@ -261,12 +374,16 @@ public class SingleLinkedList {
 //        singleLinkedList.addIndex(10,3);
  //       singleLinkedList.deleteIndex(3);
      //   singleLinkedList.reverse3();
-     //   singleLinkedList.first= singleLinkedList.reverse3();
-        System.out.println(singleLinkedList.hasCircle(singleLinkedList.first));
-        Object o= singleLinkedList.getMid(singleLinkedList.first).getData();
-        System.out.println(o);
-        deleteK(singleLinkedList.first,0);
-        singleLinkedList.print();
+       singleLinkedList.first= singleLinkedList.reverse1(singleLinkedList.first);
+//        System.out.println(singleLinkedList.hasCircle(singleLinkedList.first));
+//        Object o= singleLinkedList.getMid(singleLinkedList.first).getData();
+//        System.out.println(o);
+//        deleteK(singleLinkedList.first,0);
+//        singleLinkedList.print();
+  //      System.out.println(singleLinkedList.hasCircle1(singleLinkedList.first));
+      //  singleLinkedList.deleteK3(singleLinkedList.first,1);
+       Node node=  singleLinkedList.getMid1(singleLinkedList.first);
+        System.out.println(node.getData());
     }
 
 
@@ -274,7 +391,7 @@ public class SingleLinkedList {
 
 
 class Node{
-    private int  data;
+    public int  data;
     public Node next;
 
     public Node(int  data, Node next) {
