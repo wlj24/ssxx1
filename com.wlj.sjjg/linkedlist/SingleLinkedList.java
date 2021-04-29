@@ -10,6 +10,37 @@ public class SingleLinkedList {
      public Node first;
      private int size;
 
+
+    public Node addTwoNumbers(Node l1, Node l2) {
+         return null;
+    }
+
+    public Node mergeTwoLists(Node l1, Node l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        if (l1.data < l2.data) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1,l2.next);
+            return l2;
+        }
+    }
+
+     public Node reverse4(Node node){
+         if (node.next == null) {
+             return node;
+         }
+         Node p=reverse4(node.next);
+         node.next.next=node;
+         node.next=null;
+         return p;
+     }
+
      public Node reverse3(){
          Node pre=null;
          Node node=first;
@@ -366,7 +397,8 @@ public class SingleLinkedList {
         singleLinkedList1.addLast(1);
         singleLinkedList1.addLast(2);
         singleLinkedList1.addLast(3);
- //       Node node= order(singleLinkedList.first,singleLinkedList1.first);
+        Node node= singleLinkedList.mergeTwoLists(singleLinkedList.first, singleLinkedList1.first);
+
 
  //       singleLinkedList.addLast(5);
 //        singleLinkedList.addIndex(2,1);
@@ -382,8 +414,8 @@ public class SingleLinkedList {
 //        singleLinkedList.print();
   //      System.out.println(singleLinkedList.hasCircle1(singleLinkedList.first));
       //  singleLinkedList.deleteK3(singleLinkedList.first,1);
-       Node node=  singleLinkedList.getMid1(singleLinkedList.first);
-        System.out.println(node.getData());
+       Node node1=  singleLinkedList.getMid1(singleLinkedList.first);
+        System.out.println(node1.getData());
     }
 
 
